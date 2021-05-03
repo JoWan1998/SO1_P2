@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package user;
+option go_package = "user.pb/";
+
+message Usuario {
+    string name = 1;
+    string location = 2;
+    string gender = 3;
+    int64 age = 4;
+    string vaccine_type = 5;
+}
+
+message userRequest {
+    Usuario user = 1;
+}
+
+message userResponse {
+    string resultado = 1;
+}
+
+service userService {
+    rpc regUser(userRequest) returns (userResponse) {};
+}
