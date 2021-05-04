@@ -1,0 +1,26 @@
+npm init --yes 
+
+npm install express cors
+
+npm i nodemon -D
+
+
+
+--iniciar con nodemon
+npm run dev 
+
+-- iniciar normal
+node src/index.js
+
+
+-- instalando redis
+npm i redis
+
+
+--instalando morgan para solicitudes http
+
+npm i morgan
+
+-- decodificar el mensage 
+
+npm i sha1
