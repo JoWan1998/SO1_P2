@@ -1,0 +1,15 @@
+# se especifica la version 
+version: "3.8"
+
+# generalizamos sobre los servicios que necesitamos 
+
+services: 
+    redis:
+        container_name: "redis"
+        image: redis
+
+        volumes: 
+        - ./data:/data
+        ports: 
+        - 6379:6379
+
