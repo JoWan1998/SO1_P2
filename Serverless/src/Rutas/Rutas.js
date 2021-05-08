@@ -38,7 +38,7 @@ router.get('/ins',(req,res)=>{
                     data_.push(JSON.parse(data));
                     console.log(JSON.parse(data))
 
-                    res.send(data_);
+                    res.send(JSON.parse(JSON.stringify(data)));
  
                 });
 
