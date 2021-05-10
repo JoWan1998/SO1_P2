@@ -5,7 +5,6 @@ import Desplegable from '../Navegacion/Desplegable';
 import 'leaflet/dist/leaflet.css'
 import { MapContainer,Marker,TileLayer} from 'react-leaflet'
 import './Mapa.css'
-import moduleName from './da'
 
 export default class Mapa extends React.Component{
 
@@ -22,9 +21,7 @@ export default class Mapa extends React.Component{
                             url='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
                         />
                     </MapContainer>
-                    <Marker >
 
-                    </Marker>
                 </div> 
 
             </div>
