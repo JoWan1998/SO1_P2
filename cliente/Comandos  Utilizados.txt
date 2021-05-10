@@ -8,3 +8,5 @@ npm i chartjs-plugin-labels
 
 
 npm i axios
+
+npm i react-leaflet

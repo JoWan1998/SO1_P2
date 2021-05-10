@@ -1,0 +1,13 @@
+.Mapa {
+    text-align: center;
+  }
+  
+  .Map {
+      width: 100%;
+      height: 500px;
+  }
+  
+  .Map-container {
+      width: 100%;
+      height: 100%;
+  }
