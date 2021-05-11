@@ -7,6 +7,7 @@ import Almacen from '../Componentes/Almacen'
 import Mapa from '../Componentes/Mapa'
 import Vacuna from '../Componentes/Vacuna'
 
+import General from '../Componentes/General'
 
 
 export default function Nav(){
@@ -15,7 +16,7 @@ export default function Nav(){
         <Router>
             <Menu/>
             <Route path='/Almacen'     component ={Almacen} />
-            <Route path='/Mapa'        component ={Mapa} />
+            <Route path='/Mapa'        component ={General} />
             <Route path='/Vacuna'      component ={Vacuna} />
         </Router>
 
