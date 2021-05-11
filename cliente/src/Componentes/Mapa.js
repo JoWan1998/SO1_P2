@@ -18,16 +18,8 @@ import {
 import '@rmwc/list/styles';
 import '@material/list/dist/mdc.list.css';
 import Pastel from '../Estructuras/Pastel';
-<<<<<<< HEAD
-import DesNav from '../Navegacion/DesNav';
-import Desplegable from '../Navegacion/Desplegable';
-import 'leaflet/dist/leaflet.css'
-import { MapContainer,Marker,TileLayer} from 'react-leaflet'
 
-import './Mapa.css'
-=======
 import Barras from '../Estructuras/Barras';
->>>>>>> master
 
 export default class Mapa extends Component{
     constructor(props){
