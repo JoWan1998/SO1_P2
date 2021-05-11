@@ -86,24 +86,6 @@ export default class Mapa extends Component{
         }
     }
 
-    state={
-        show:true,
-        paices:[]
-    }
-
-    toggleShow = () =>{
-        this.setState({show: !this.state.show})
-        console.log(this.props.data)
-    }
-
-    
-    async GetPaices(){
-        var peticion   = await fetch("http://35.222.55.115:8080/type")  
-        var paices = await peticion.json();
-
-        this.setState({paices: paices});
-
-    }
     
 
     render(){
@@ -199,7 +181,6 @@ export default class Mapa extends Component{
             </div>
 
 
-        </div>
         );
     }
 
