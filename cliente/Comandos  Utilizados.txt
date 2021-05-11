@@ -8,3 +8,8 @@ npm i chartjs-plugin-labels
 
 
 npm i axios
+
+npm install react-svg-worldmap --save //MAPA
+npm i rmwc --save //MATERIAL FOR REACT
+
+npm i axios --save
