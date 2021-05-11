@@ -4,14 +4,23 @@ import {Pie} from 'react-chartjs-2'
 
 
 export default class Pastel extends Component {
-    state ={
-        respuesta:[],
-        estado:[],
-        porcentajes:[],
-        colores:[],
-        data:[],
-        opciones:[]
+
+    constructor(props){
+        super(props);
+
+        this.state ={
+            respuesta:[],
+            estado:[],
+            porcentajes:[],
+            colores:[],
+            data:[],
+            opciones:[],
+            filtro: '',
+            curTime: ''
+        }
+        this.setFiltro = this.setFiltro.bind(this);
     }
+    
     async peticion(){
         // var peticion   = await fetch("http://35.222.55.115:8080/type")  
         // var respuestat = await peticion.json();
@@ -25,10 +34,6 @@ export default class Pastel extends Component {
         }]
 
         var respuestat = JSON.parse(JSON.stringify(respu))
-
-
-
-
 
         this.setState({respuesta: respuestat});
 
@@ -59,6 +64,11 @@ export default class Pastel extends Component {
         }
         return "#"+color;
     }
+
+    setFiltro = (filtro) => {
+        this.setState({filtro: filtro});
+    }
+
     //generar colores
     generarC_(){
         var coloresf=[];
@@ -94,17 +104,21 @@ export default class Pastel extends Component {
     }
     //ma
     async componentDidMount(){
-        await this.peticion();
-        await this.generarC_();
-        await this.configuracionG_();
+
     }
 
     render() {
         return (
-            <div className="App" style={{width:'100%',height:'500px'}}>
-            <h1>Porcentajes  infectedtype  </h1>
-            <Pie data={this.state.data} opciones={this.state.opciones}/>
+            <div className="card border-dark mb-3">
+                <div className="card-body">
+                    <h1>Generos Vacunados por Pais</h1>
+                    <Pie data={this.state.data} opciones={this.state.opciones}/>
+                </div>
+                <div className="card-footer text-right">
+                    <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
+                </div>
             </div>
+
         )
     }
 
