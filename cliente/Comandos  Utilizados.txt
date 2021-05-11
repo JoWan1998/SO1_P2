@@ -3,7 +3,7 @@ npm i bootstrap
 npm i react-router-dom
 
 npm i react-chartjs-2
-
+npm i chartjs --save
 npm i chartjs-plugin-labels
 
 
