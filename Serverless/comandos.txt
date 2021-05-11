@@ -24,3 +24,8 @@ npm i morgan
 -- decodificar el mensage 
 
 npm i sha1
+
+
+
+-- correr imagen de redis 
+
