@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { Bar } from 'react-chartjs-2'
 import axios from 'axios';
-
+import {
+    Typography
+} from "@rmwc/typography"
+import '@rmwc/typography/styles';
+import '@material/typography/dist/mdc.typography.css';
 
 export default class Barras extends Component{
 
@@ -124,11 +128,8 @@ export default class Barras extends Component{
          
             <div className="card border-dark mb-3">
                 <div className="card-body">
-                    <h1>Rango de Edades (Pacientes)</h1>
+                    <Typography use="headline3">Rango de Edades (Pacientes)</Typography>
                     <Bar data={this.state3.data} options={this.state3.opciones} legend={this.state3.legend}/>
-                </div>
-                <div className="card-footer text-right">
-                    <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                 </div>
             </div>
         )}
