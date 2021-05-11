@@ -15,6 +15,7 @@ export default function Nav(){
     return(
         <Router>
             <Menu/>
+            <Route path='/'            componet={Mapa} />
             <Route path='/Almacen'     component ={Almacen} />
             <Route path='/Mapa'        component ={General} />
             <Route path='/Vacuna'      component ={Vacuna} />
