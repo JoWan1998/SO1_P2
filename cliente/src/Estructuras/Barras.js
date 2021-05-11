@@ -1,37 +1,68 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { Bar } from 'react-chartjs-2'
+import axios from 'axios';
 
-const options = {
-    animationEnabled: true,
-    title:{
-        text: "Top 5 departamentos infectados"
-    },
-    data: [{
-        type: "funnel",
-        toolTipContent: "<b>{label}</b>: {y} <b>({percentage}%)</b>",
-        indexLabelPlacement: "inside",
-        indexLabel: "{label} ({percentage}%)",
-        dataPoints: datap
-    }]
-}
-export default class Barras extends React.Component{
-    state3 ={
-        respuesta: [],
-        edad: [],
-        cantidad: [],
-        colores: [],
-        data: [],
-        opciones: [],
-        type: 'bar'
+
+export default class Barras extends Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            curTime: '',
+            filtro1: ''
+        }
+        this.state3 = {
+            respuesta: [],
+            edad: [],
+            cantidad: [],
+            colores: [],
+            data: [],
+            opciones: [],
+            type: 'bar'
+        }
+
+        this.setFiltro = this.setFiltro.bind(this);
+        this.peticiones_Range = this.peticiones_Range.bind(this);
+    }
+    
+    generar_RE(){
+        var Caracte= ["a","b","c","d","e","f","1","2","3","4","5","6","7","8","9"]
+        var numero = (Math.random()*15).toFixed(0);
+        return Caracte[numero];
     }
 
+    //concatena la cadena para que sea un formato de cadena hexadecimal
+    colorHex_RE(){
+        var color = "";
+        for(var index=0;index<6;index++){
+            color= color + this.generar_RE();
+        }
+        return "#"+color;
+    }
+
+    //generar colores
+    generarC_RE(){
+        var coloresf=[];
+        for (var i = 0; i < this.state3.respuesta.length ; i++){
+            coloresf.push(this.colorHex_RE());
+        }
+        this.state3.colores = coloresf;
+    }
+
+    setFiltro = (filtro) => {
+        this.setState({filtro1: filtro});
+    }
 
 
     async peticiones_Range()
     {
-        await fetch('http://35.222.55.115:8080/Ages').then(res=>{
-            res.json().then(result=>
-            {
-                let values = JSON.parse(JSON.stringify(result));
+        let peticion = {
+            pais: this.state.filtro1
+        }
+        await axios.get('http://35.222.55.115:8080/Ages',peticion)
+        .then(
+            (res) =>{
+                let values = JSON.parse(JSON.stringify(res.data));
                 this.generarC_RE();
                 if(values.length > 0) this.state3.respuesta = values;
                 this.state3.edad = []
@@ -62,8 +93,27 @@ export default class Barras extends React.Component{
                     }
                 };
 
-            })
-        }).catch(err => alert(err))
+        }).catch(err => {})
+    }
+
+
+    
+    async componentDidMount() {
+        try {
+            setInterval( () => {
+                this.setState({
+                    curTime : new Date().toLocaleString()
+                })
+            },2000)
+            setInterval(this.peticiones_Range, 2000);
+        } catch (error) {
+            console.log("Errores de render");
+        }
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this.peticiones_Range);
     }
 
 
@@ -72,24 +122,15 @@ export default class Barras extends React.Component{
 
         return(
          
-            <div className="row">
-            <div className="col col-lg-12 col-md-12 col-sm-12">
-                <div className="card border-primary mb-3" id="RangoEdades">
-                    <div className="card-header">
-                        <h2>Rango de Edades (Pacientes)</h2>
-                    </div>
-                    <div className="card-body">
-                        <div className="table-responsive">
-                            <Bar data={this.state3.data} options={this.state3.opciones} legend={this.state3.legend}/>
-                        </div>
-                    </div>
-                    <div className="card-footer text-right">
-                        <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
-                    </div>
+            <div className="card border-dark mb-3">
+                <div className="card-body">
+                    <h1>Rango de Edades (Pacientes)</h1>
+                    <Bar data={this.state3.data} options={this.state3.opciones} legend={this.state3.legend}/>
                 </div>
-
+                <div className="card-footer text-right">
+                    <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
+                </div>
             </div>
-        </div>
         )}
 
 

@@ -1,0 +1,15 @@
+npm i bootstrap
+
+npm i react-router-dom
+
+npm i react-chartjs-2
+npm i chartjs --save
+npm i chartjs-plugin-labels
+
+
+npm i axios
+
+npm install react-svg-worldmap --save //MAPA
+npm i rmwc --save //MATERIAL FOR REACT
+
+npm i axios --save
