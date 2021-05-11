@@ -19,6 +19,12 @@ import '@rmwc/list/styles';
 import '@material/list/dist/mdc.list.css';
 import Pastel from '../Estructuras/Pastel';
 import Barras from '../Estructuras/Barras';
+import {
+    Typography
+} from "@rmwc/typography"
+import '@rmwc/typography/styles';
+import '@material/typography/dist/mdc.typography.css';
+import TableVacunadosRedis from "../Estructuras/TableVacunadosRedis";
 
 export default class Mapa extends Component{
     constructor(props){
@@ -48,6 +54,8 @@ export default class Mapa extends Component{
         this.removeFilter = this.removeFilter.bind(this);
         this.childPie = React.createRef();
         this.childBarra = React.createRef();
+        this.childVacunadasP = React.createRef();
+        this.tableHeader = ["Nombre", "Pais", "Genero", "Edad", "Vacuna"];
     }
 
     obtenerInfectados(){
@@ -173,6 +181,18 @@ export default class Mapa extends Component{
                     </div>
                     <div className="col-lg-6 col-md-12 col-sm-12">
                         <Barras ref={this.childBarra} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div className="card border-dark mb-3">
+                            <div className="card-body">
+                            <Typography use="headline3">Personas Vacunadas por Pais</Typography>
+                                <div className="table-responsive">
+                                    <TableVacunadosRedis data={this.tableHeader} ref={this.childVacunadasP}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
