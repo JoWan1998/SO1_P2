@@ -18,6 +18,7 @@ import {
 import '@rmwc/list/styles';
 import '@material/list/dist/mdc.list.css';
 import Pastel from '../Estructuras/Pastel';
+
 import Barras from '../Estructuras/Barras';
 import {
     Typography
@@ -92,6 +93,8 @@ export default class Mapa extends Component{
             this.childBarra.current.setFiltro('');
         }
     }
+
+    
 
     render(){
 
@@ -196,6 +199,8 @@ export default class Mapa extends Component{
                     </div>
                 </div>
             </div>
+
+
         );
     }
 
