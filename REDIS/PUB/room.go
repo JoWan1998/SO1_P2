@@ -27,7 +27,7 @@ func CreateRedisClient() {
 */
 
 func publishMessage(message []byte) {
-	opt, err := redis.ParseURL("redis://localhost:6379/0")
+	opt, err := redis.ParseURL("redis://34.123.108.198:6379/0")
 	if err != nil {
 		panic(err)
 	}
@@ -69,7 +69,6 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	log.Println("Error Parseando JSON: ", err)
 	body["way"] = "Redis Pub/Sub"
 	data, err := json.Marshal(body)
-
 	log.Println("Error Reading Body: ", err)
 	fmt.Println(string(data))
 	publishMessage(data)
@@ -80,8 +79,8 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 func main() {
 	//CreateRedisClient()
 	http.HandleFunc("/", createTask)
-	fmt.Println("Server listening on port 8080...")
-	if errors := http.ListenAndServe(":8080", nil); errors != nil {
+	fmt.Println("Server listening on port 80...")
+	if errors := http.ListenAndServe(":80", nil); errors != nil {
 		log.Fatal(errors)
 	}
 }
