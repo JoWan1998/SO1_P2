@@ -15,11 +15,11 @@ import (
 )
 
 type userStruct struct {
-	Name        string
-	Location    string
-	Gender      string
-	Age         int64
-	VaccineType string
+	Name         string
+	Location     string
+	Gender       string
+	Age          int64
+	Vaccine_type string
 }
 
 func registrarUsuario(nameparam string, locationparam string, genderparam string, ageparam int64, vaccinetypeparam string) {
@@ -90,7 +90,7 @@ func http_server(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Nombre es: %s\n", us.Name)
 
 		//enviar el mensaje
-		registrarUsuario(us.Name, us.Location, us.Gender, us.Age, us.VaccineType)
+		registrarUsuario(us.Name, us.Location, us.Gender, us.Age, us.Vaccine_type)
 
 	default:
 		fmt.Fprintf(w, "Metodo %s no soportado \n", r.Method)
@@ -102,7 +102,7 @@ func main() {
 	//instance_name := os.Getenv("NAME")
 	instance_name := "grpcInstancia"
 	//client_host := os.Getenv("CLIENT_HOST")
-	client_host := ":8080"
+	client_host := ":80"
 
 	fmt.Println("Cliente ", instance_name, " listo!")
 	fmt.Println("Iniciando http server en ", client_host)
