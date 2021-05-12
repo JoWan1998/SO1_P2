@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import {Pie} from 'react-chartjs-2'
-
+import {
+    Typography
+} from "@rmwc/typography"
+import '@rmwc/typography/styles';
+import '@material/typography/dist/mdc.typography.css';
+import axios from 'axios';
 
 
 export default class Pastel extends Component {
@@ -111,11 +116,8 @@ export default class Pastel extends Component {
         return (
             <div className="card border-dark mb-3">
                 <div className="card-body">
-                    <h1>Generos Vacunados por Pais</h1>
+                    <Typography use="headline3">Generos Vacunados por Pais</Typography>
                     <Pie data={this.state.data} opciones={this.state.opciones}/>
-                </div>
-                <div className="card-footer text-right">
-                    <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                 </div>
             </div>
 

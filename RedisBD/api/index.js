@@ -38,6 +38,9 @@ app.get('/obtenerUsuarios', function (req, res, next) {
     })
 });
 
+
+
+
 app.get('/deleteAll', function (req, res, next){
     func.delete_all(function (response, code){
         resp(res, response, code, next)

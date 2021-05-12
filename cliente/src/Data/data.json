@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Julio Moran",
+        "location": "Meixico City",
+        "gender": "male",
+        "age": 31,
+        "vaccine_type": "Sputnik V"
+    },
+    {
+        "name": "Pablo Mendoza",
+        "location": "Guatemala City",
+        "gender": "male",
+        "age": 35,
+        "vaccine_type": "Sputnik V"
+    },
+    {
+        "name": "Dany Juarez",
+        "location": "Guatemala City",
+        "gender": "male",
+        "age": 32,
+        "vaccine_type": "Sputnik V"
+    },
+    {
+        "name": "Kilian Perez",
+        "location": "Mexico City",
+        "gender": "male",
+        "age": 31,
+        "vaccine_type": "Sputnik V"
+    }
+]
+    

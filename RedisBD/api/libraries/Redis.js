@@ -57,7 +57,8 @@ var Redis = {
                     console.log(JSON.parse(array[i]))
                     res.push(JSON.parse(array[i]));
                 }
-
+                console.log('------------------');
+                console.log(res)
                 return callback(res);
             }
         });
