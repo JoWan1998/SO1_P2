@@ -13,12 +13,12 @@ services:
     container_name: cliente
     restart: always
     environment:
-      - CLIENT_HOST=:8080
+      - CLIENT_HOST=:80
       - SERVER_HOST=grpcserver:8081
       - NAME=grpcInstancia
     build: ./cliente
     ports:
-      - "8080:8080"
+      - "80:80"
     networks:
       - grpc
 

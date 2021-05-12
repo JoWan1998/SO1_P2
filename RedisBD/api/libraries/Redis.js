@@ -52,8 +52,6 @@ var Redis = {
                 return false}
             else{
                 let array = JSON.parse(JSON.stringify(data));
-                console.log(array);
-                console.log('--------------------------')
                 var res = [];
                 for(var i = 0; i < array.length; i++){
                     console.log(JSON.parse(array[i]))
