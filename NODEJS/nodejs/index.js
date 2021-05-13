@@ -78,6 +78,15 @@ mongoClient.connect(urlMongo, { useUnifiedTopology: true })
         .catch(error => console.error(error))
     });
 
+    app.get('/top5/pacientes', async (req,res)=> {
+        await coleccion.find( { name: { $ne: null } }).sort({$natural:-1}).limit(5).toArray()
+        .then(result => {
+            console.log("Top5/Pacientes!");
+            res.json(result);
+        })
+        .catch(err => console.error("Error Top5 / pacientes:\n", err))
+    });
+
     app.listen(port, () => {console.log(`Server corriendo en puerto ${port}!`) });
     
 })
