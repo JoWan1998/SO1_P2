@@ -22,7 +22,7 @@ function age_(pacientes,pais)
 
     pacientes.forEach(paciente=>
     {
-        if((paciente.age != null && Number(paciente.age)) && (paciente.location.toLowerCase() == pais.toLowerCase()))
+        if((paciente.age != null && Number(paciente.age)) && (paciente.location.toLowerCase().includes(pais.toLowerCase())))
         {
             lista.forEach(element=>
             {

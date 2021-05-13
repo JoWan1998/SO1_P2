@@ -34,7 +34,9 @@ export default class Mapa extends Component{
             filters: '',
             data: [],
             paises: [],
-            dataPaises: []
+            dataPaises: [],
+            dataGen: [],
+            dataV: []
         };
 
         this.handlerClick = this.handlerClick.bind(this);
@@ -42,31 +44,130 @@ export default class Mapa extends Component{
         this.childPie = React.createRef();
         this.childBarra = React.createRef();
         this.childVacunadasP = React.createRef();
-        this.tableHeader = ["Nombre", "Pais", "Genero", "Edad", "Vacuna"];
+        this.tableHeader = ["name", "location", "gender", "age", "vaccine_type"];
+        this.obtenerInfectados = this.obtenerInfectados.bind(this);
+        this.personasVR = this.personasVR.bind(this);
+        this.ObtenerDatosT51 = this.ObtenerDatosT51.bind(this);
     }
 
-    obtenerInfectados(){
-        axios.get('',{})
+    async ObtenerDatosT51(){
+        axios.get('http://34.66.140.170:8080/top5/pacientes',{})
         .then(
             (response)=>{
-                paises.forEach(pais=>
-                    {
-                        if(pais.name === response.data.name || pais.nom === response.data.name){
-                            console.log(pais.iso2, pais.iso3)
+                var data = []
+                response.data.forEach(element => {
+                    data.push(
+                        {
+                            Nombre: element.name,
+                            Pais: element.location,
+                            Genero: element.gender,
+                            Edad: element.age
                         }
-                    })
+                    )
+                });
+                this.setState({dataV: data});
+                if(this.childVacunados.current != null){
+                    this.childVacunados.current.removeRow()
+                    this.childVacunados.current.agregar_datos(data);
+                }
+            }
+        ).catch(err=>{});
+    }
+
+    async obtenerInfectados(){
+        axios.get('http://34.66.140.170:8080/obtenerUsuarios',{})
+        .then(
+            (response)=>{
+                var data = [];
+                var dat = [];
+                response.data.forEach(paisest=>{
+                    paises.forEach(pais=>
+                        {
+                            let _in = false;
+                            if(paisest.location.toString().toLowerCase().includes(pais.name.toString().toLowerCase())
+                              || paisest.location.toString().toLowerCase().includes(pais.nom.toString().toLowerCase())
+                              || paisest.location.toString().toLowerCase().includes(pais.nombre.toString().toLowerCase())){
+                                data.forEach(dats=>{
+                                    if(dats.country === pais.iso2){
+                                        _in = true;
+                                        dats.value = dats.value + 1;
+                                    }
+                                })
+                                if(!_in)
+                                {
+                                    data.push({
+                                        country: pais.iso2,
+                                        value: 1
+                                    });
+                                    dat.push(
+                                        {
+                                            location: paisest.location,
+                                            country: pais.iso2
+                                        }
+                                    )
+                                }
+
+                            }
+                        })
+                    
+                })
+                this.setState({data: data});
+                this.setState({dataPaises: dat});
             }
         ).catch({});
     }
 
+    async personasVR(){
+        //'http://c21f70cc5e50.ngrok.io/obtenerUsuarios'
+        let url = localStorage.getItem("urlServerless") +"/obtenerUsuarios";
+        axios.get(url,{})
+        .then(
+            (response)=>{
+                var dataGem = [];
+                response.data.data.forEach(paises=>{
+                        dataGem.push(paises);
+                })
+                this.setState({dataGen: dataGem});
+                
+            }
+        ).catch({});       
+    }
+
+    async componentDidMount(){
+        try{
+            setInterval( () => {
+                this.setState({
+                    curTime : new Date().toLocaleString()
+                })
+            },5000)
+            setInterval(this.obtenerInfectados, 5000);
+            setInterval(this.personasVR, 5000);
+            setInterval(this.ObtenerDatosT51, 5000);
+        }catch(error){
+
+        }
+        
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.obtenerInfectados)
+        clearInterval(this.personasVR)
+        clearInterval(this.ObtenerDatosT51);
+    }
+
     handlerClick(event, countryName, isoCode, value, prefix, suffix) {
-        this.setState({filters: countryName})
-        if(this.childPie.current != null){
-            this.childPie.current.setFiltro(countryName);
-        }
-        if(this.childBarra.current != null){
-            this.childBarra.current.setFiltro(countryName);
-        }
+        this.state.dataPaises.forEach(pais =>
+            {
+                if(pais.location.toString().toLowerCase().includes(countryName.toString().toLowerCase())){
+                    this.setState({filters: pais.location})
+                    if(this.childPie.current != null){
+                        this.childPie.current.setFiltro(pais.location);
+                    }
+                    if(this.childBarra.current != null){
+                        this.childBarra.current.setFiltro(pais.location);
+                    }
+                }
+            })
     }
 
     removeFilter(){
@@ -94,14 +195,14 @@ export default class Mapa extends Component{
 
         let itemsito = []                                            
                                                    
-        if(this.state.paises.length>0)
-            for (let i = 0; i < this.state.paises.length; i++)
+        if(this.state.dataV.length>0)
+            for (let i = 0; i < this.state.dataV.length; i++)
              itemsito.push(
              
                 <SimpleListItem
-                    text={this.state.paises[i].country}
-                    secondaryText={"Infectados: " +this.state.paises[i].value}
-                    meta="Vacunados!"
+                    text={"Paciente: "+this.state.dataV[i].name}
+                    secondaryText={"Pais: " +this.state.paises[i].location+", Edad: "+this.state.paises[i].age}
+                    meta="Vacunado"
                 />
              
                 );
@@ -118,6 +219,13 @@ export default class Mapa extends Component{
                 cursor: "pointer" 
                     }
         }
+
+        const values = this.state.dataGen.filter((value)=> value.location.includes(this.state.filters))
+                if(this.childVacunadasP.current != null)
+                {
+                    this.childVacunadasP.current.removeRow();
+                    this.childVacunadasP.current.agregar_datos(values);
+                }
 
         return(
             <div className="container-fluid" >
@@ -136,6 +244,9 @@ export default class Mapa extends Component{
                                             styleFunction={stylingFunction}
                                             
                                         />
+                            </div>
+                            <div className="card-footer text-right">
+                                <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                             </div>
                         </div>
                     </div>
@@ -159,6 +270,9 @@ export default class Mapa extends Component{
                                                 {itemsito}
                                             </List>
                                         </div>
+                                        <div className="card-footer text-right">
+                                            <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
+                                        </div>
                                 </div> 
                             </div>
                         </div>
@@ -180,6 +294,9 @@ export default class Mapa extends Component{
                                 <div className="table-responsive">
                                     <TableVacunadosRedis data={this.tableHeader} ref={this.childVacunadasP}/>
                                 </div>
+                            </div>
+                            <div className="card-footer text-right">
+                                <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                             </div>
                         </div>
                     </div>

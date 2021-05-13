@@ -24,36 +24,52 @@ export default class Pastel extends Component {
             curTime: ''
         }
         this.setFiltro = this.setFiltro.bind(this);
+        this.peticion = this.peticion.bind(this);
     }
     
     async peticion(){
         // var peticion   = await fetch("http://35.222.55.115:8080/type")  
         // var respuestat = await peticion.json();
+
+        let peticion = {
+            location: this.state.filtro
+        }
+        //genders
+        var respu = []
+        console.log(peticion);
+        await axios.post("http://34.66.140.170:8080/genders", peticion)
+        .then(
+            (response)=>{
+                respu = response.data;
+                var respuestat = respu;
+                this.setState({respuesta: respu});
+
+                var estadot=[]
+                var porcentajet=[]
+
+                this.state.respuesta.forEach((elemento) => {
+                    estadot.push(elemento.gender);
+                    porcentajet.push(elemento.porcent);
+                });
+
+                this.setState({estado: estadot, porcentajes: porcentajet});
+                this.generarC_();
+                this.configuracionG_();
+            }
+        )
+        .catch(err=>{});
+
+        /*
         var respu = [{
-            'state':'male',
-            'porcent':3
+            gender: 'male',
+            porcent: 3
         },
         {
-            'state':'sss',
-            'porcent':66
-        }]
+            gender: 'female',
+            porcent: 66
+        }]*/
 
-        var respuestat = JSON.parse(JSON.stringify(respu))
-
-        this.setState({respuesta: respuestat});
-
-        var estadot=[]
-        var porcentajet=[]
-
-        this.state.respuesta.map((elemento)=>{
-            estadot.push(elemento.infectedtype);
-            porcentajet.push(elemento.porcent);
-        });
-
-        this.setState({estado: estadot, porcentajes: porcentajet});
-        console.log(this.state.estado)
-        console.log(this.state.porcentajes)
-        console.log(respuestat)
+        
     }
     //Generar Caracter de manera aleatoria
     generar_(){
@@ -109,7 +125,21 @@ export default class Pastel extends Component {
     }
     //ma
     async componentDidMount(){
+        try{
+            setInterval( () => {
+                this.setState({
+                    curTime : new Date().toLocaleString()
+                })
+            },5000)
+            setInterval(this.peticion, 5000);
+        }catch(error){
 
+        }
+        
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.peticion)
     }
 
     render() {
@@ -118,6 +148,9 @@ export default class Pastel extends Component {
                 <div className="card-body">
                     <Typography use="headline3">Generos Vacunados por Pais</Typography>
                     <Pie data={this.state.data} opciones={this.state.opciones}/>
+                </div>
+                <div className="card-footer text-right">
+                    <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                 </div>
             </div>
 

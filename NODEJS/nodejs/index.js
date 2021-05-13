@@ -19,6 +19,7 @@ mongoClient.connect(urlMongo, { useUnifiedTopology: true })
     const db = client.db(nameDB)
     const coleccion = db.collection('usuario')
 
+
     app.get('/', (req, res) => {
         console.log('inicio de api')
         res.send('API SOPES 1 :D');
@@ -87,7 +88,49 @@ mongoClient.connect(urlMongo, { useUnifiedTopology: true })
         .catch(err => console.error("Error Top5 / pacientes:\n", err))
     });
 
+    app.post('/genders', async (req, res) => {
+        coleccion.find().toArray()
+        .then(results => {
+            console.log("Generos!");
+            res.json(infect_(results, req.body.location))
+        })
+        .catch(error => console.error(error))
+    });
+
     app.listen(port, () => {console.log(`Server corriendo en puerto ${port}!`) });
     
 })
 .catch(console.error)
+
+function infect_(visitados, pais){
+    const lista = []
+    let cantidad = 0;
+    //listamos solo datos que necesitamos
+    visitados.forEach(element => {
+        if(element.gender!= null)
+        {
+            var __k = false;
+            lista.forEach(element1 =>
+            {
+                if(element1.gender.toLowerCase() === element.gender.toLowerCase() && (element.location.toLowerCase() === pais || pais === ''))
+                {
+                    element1.count = element1.count + 1;
+                    __k = true;
+                }
+            });
+            if(!__k) lista.push({ state: element.gender.toLowerCase(), count: 1, porcent: 0});
+        }
+
+    });
+
+    lista.forEach(element=>
+    {
+        cantidad += element.count;
+    });
+
+    lista.forEach(element1=>
+    {
+        element1.porcent = (element1.count/cantidad)*100;
+    })
+    return lista;
+}

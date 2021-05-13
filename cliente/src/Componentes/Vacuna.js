@@ -20,9 +20,11 @@ export default class Vacuna extends React.Component{
     this.childVacunados = React.createRef();
     this.state = {
         dataT: [],
-        dataV: []
+        dataV: [],
+        curTime: ''
     }
     this.ObtenerDatosT5 = this.ObtenerDatosT5.bind(this);
+    this.getPaisesT10 = this.getPaisesT10.bind(this);
 }
     async ObtenerDatosT5(){
         axios.get('http://34.66.140.170:8080/top5/pacientes',{})
@@ -39,18 +41,49 @@ export default class Vacuna extends React.Component{
                         }
                     )
                 });
-                this.setState({dataT: data});
-                if(this.childTopTen.current != null){
-                    this.childTopTen.current.removeRow()
-                    this.childTopTen.current.agregar_datos(data);
+                this.setState({dataV: data});
+                if(this.childVacunados.current != null){
+                    this.childVacunados.current.removeRow()
+                    this.childVacunados.current.agregar_datos(data);
                 }
             }
         ).catch(err=>{});
     }
 
+    async getPaisesT10(){
+        //"http://c21f70cc5e50.ngrok.io/Gettop"
+        let url = localStorage.getItem("urlServerless") +"/Gettop";
+        axios.get(url,{})
+        .then(
+            (response)=>{
+                if(response.data.length > 0){
+                    var data = [];
+                    response.data.forEach((element)=>{
+                        data.push({
+                            Pais: element.location,
+                            Cantidad: element.valor
+                        })
+                    })
+
+                    this.setState({dataT: data})
+                    if(this.childTopTen.current != null){
+                        this.childTopTen.current.removeRow()
+                        this.childTopTen.current.agregar_datos(data);
+                    }
+                }
+            }
+        ).catch(err => {})
+    }
+
     async componentDidMount() {
         try {
-            setInterval(this.ObtenerDatosT5, 3000);
+            setInterval( () => {
+                this.setState({
+                    curTime : new Date().toLocaleString()
+                })
+            },5000)
+            setInterval(this.ObtenerDatosT5, 5000);
+            setInterval(this.getPaisesT10, 5000);
         } catch (error) {
             console.log("Errores de render");
         }
@@ -59,6 +92,7 @@ export default class Vacuna extends React.Component{
 
     componentWillUnmount() {
         clearInterval(this.ObtenerDatosT5);
+        clearInterval(this.getPaisesT10)
     }
 
   render(){
@@ -74,15 +108,21 @@ export default class Vacuna extends React.Component{
                                     <TableDatos data={this.tableHeader} ref={this.childTopTen}/>
                                 </div>
                             </div>
+                            <div className="card-footer text-right">
+                                <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
+                            </div>
                         </div>
                     </div>
                     <div className="col col-lg-6 col-md-12 col-sm-12 col-12">
                         <div className="card border-dark mb-3">
                             <div className="card-body">
-                            <Typography use="headline3">Ultimos 5 Vacunados por Pais</Typography>
+                                <Typography use="headline3">Ultimos 5 Vacunados por Pais</Typography>
                                 <div className="table-responsive">
                                     <TablePaisesRedis data={this.tableHeader1} ref={this.childVacunados}/>
                                 </div>
+                            </div>
+                            <div className="card-footer text-right">
+                                <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                             </div>
                         </div>
                     </div>

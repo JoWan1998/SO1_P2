@@ -46,7 +46,7 @@ export default class Datal extends React.Component{
 
     async componentDidMount() {
         try {
-            setInterval(this.ObtenerDatos, 3000);
+            setInterval(this.ObtenerDatos, 5000);
         } catch (error) {
             console.log("Errores de render");
         }
