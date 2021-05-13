@@ -103,34 +103,40 @@ mongoClient.connect(urlMongo, { useUnifiedTopology: true })
 .catch(console.error)
 
 function infect_(visitados, pais){
-    const lista = []
-    let cantidad = 0;
-    //listamos solo datos que necesitamos
-    visitados.forEach(element => {
-        if(element.gender!= null)
-        {
-            var __k = false;
-            lista.forEach(element1 =>
+    try{
+        const lista = []
+        let cantidad = 0;
+        //listamos solo datos que necesitamos
+        visitados.forEach(element => {
+            if(element.gender!= null)
             {
-                if(element1.gender.toLowerCase() === element.gender.toLowerCase() && (element.location.toLowerCase() === pais || pais === ''))
+                var __k = false;
+                lista.forEach(element1 =>
                 {
-                    element1.count = element1.count + 1;
-                    __k = true;
-                }
-            });
-            if(!__k) lista.push({ state: element.gender.toLowerCase(), count: 1, porcent: 0});
-        }
+                    if(element1.state.toLowerCase() === element.gender.toLowerCase() && (element.location.toLowerCase() === pais || pais === ''))
+                    {
+                        element1.count = element1.count + 1;
+                        __k = true;
+                    }
+                });
+                if(!__k) lista.push({ state: element.gender.toLowerCase(), count: 1, porcent: 0});
+            }
+    
+        });
+    
+        lista.forEach(element=>
+        {
+            cantidad += element.count;
+        });
+    
+        lista.forEach(element1=>
+        {
+            element1.porcent = (element1.count/cantidad)*100;
+        })
+        return lista;
+    } catch(error) {
+        console.log(error)
+        return [];
+    }
 
-    });
-
-    lista.forEach(element=>
-    {
-        cantidad += element.count;
-    });
-
-    lista.forEach(element1=>
-    {
-        element1.porcent = (element1.count/cantidad)*100;
-    })
-    return lista;
 }
