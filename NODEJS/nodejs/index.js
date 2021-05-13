@@ -108,12 +108,12 @@ function infect_(visitados, pais){
         let cantidad = 0;
         //listamos solo datos que necesitamos
         visitados.forEach(element => {
-            if(element.gender!= null)
+            if(element.gender!= null && pais != undefined)
             {
                 var __k = false;
                 lista.forEach(element1 =>
                 {
-                    if(element1.state.toLowerCase() === element.gender.toLowerCase() && (element.location.toLowerCase() === pais || pais === ''))
+                    if(element1.state.toLowerCase() === element.gender.toLowerCase() && (element.location.toLowerCase().includes(pais.toString().toLowerCase()) || pais === ''))
                     {
                         element1.count = element1.count + 1;
                         __k = true;
