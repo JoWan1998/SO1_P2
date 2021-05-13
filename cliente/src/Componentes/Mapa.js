@@ -32,23 +32,9 @@ export default class Mapa extends Component{
         super(props);
         this.state = {
             filters: '',
-            data: [{ country: "gt", value: 1},
-            { country: "cn", value: 1 },
-            { country: "in", value: 2 },
-            { country: "us", value: 3 }],
-            paises: [
-                { country: "Guatemala", value: 1},
-                { country: "China", value: 1 },
-                { country: "India", value: 2 },
-                { country: "Estados Unidos", value: 3 },
-                { country: "United States", value: 3 }
-            ],
-            dataPaises: [
-                { country: "Guatemala", value: 1},
-                { country: "China", value: 1 },
-                { country: "India", value: 2 },
-                { country: "United States", value: 3 }
-            ]
+            data: [],
+            paises: [],
+            dataPaises: []
         };
 
         this.handlerClick = this.handlerClick.bind(this);
