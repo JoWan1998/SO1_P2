@@ -18,7 +18,48 @@ export default class Vacuna extends React.Component{
     this.tableHeader1 = ["Nombre", "Pais", "Genero", "Edad"];
     this.childTopTen = React.createRef();
     this.childVacunados = React.createRef();
+    this.state = {
+        dataT: [],
+        dataV: []
+    }
+    this.ObtenerDatosT5 = this.ObtenerDatosT5.bind(this);
 }
+    async ObtenerDatosT5(){
+        axios.get('http://34.66.140.170:8080/top5/pacientes',{})
+        .then(
+            (response)=>{
+                var data = []
+                response.data.forEach(element => {
+                    data.push(
+                        {
+                            Nombre: element.name,
+                            Pais: element.location,
+                            Genero: element.gender,
+                            Edad: element.age
+                        }
+                    )
+                });
+                this.setState({dataT: data});
+                if(this.childTopTen.current != null){
+                    this.childTopTen.current.removeRow()
+                    this.childTopTen.current.agregar_datos(data);
+                }
+            }
+        ).catch(err=>{});
+    }
+
+    async componentDidMount() {
+        try {
+            setInterval(this.ObtenerDatosT5, 3000);
+        } catch (error) {
+            console.log("Errores de render");
+        }
+
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.ObtenerDatosT5);
+    }
 
   render(){
     return (
