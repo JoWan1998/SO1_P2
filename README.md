@@ -40,7 +40,7 @@ personas vacunadas contra la COVID-19 alrededor del mundo.
 * Servicios de Mensajería
 
     * [GRPC](https://github.com/JoWan1998/SO1_P2/blob/master/GRPC/README.md)
-    * [Kafka]()
+    * [Kafka](https://github.com/JoWan1998/SO1_P2/blob/master/KAFKA/README.md)
     * [Redis Pub/Sub]()
     * [Defaulty Traffic]()
     
@@ -53,8 +53,8 @@ personas vacunadas contra la COVID-19 alrededor del mundo.
 
 
 * Almacenamiento
-    * [Mongo BD]()
-    * [Redis BD]()
+    * [Mongo BD](https://github.com/JoWan1998/SO1_P2/blob/master/NODEJS/MANUAL.md)
+    * [Redis BD](https://github.com/JoWan1998/SO1_P2/blob/master/RedisBD/README.md)
 
 * Serverless
 
