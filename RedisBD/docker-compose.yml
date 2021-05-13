@@ -15,9 +15,11 @@ services:
         container_name: "redis"
         image: redis
         volumes: 
-        - ./data:/data
+            - ./data:/data
+            - ./redis.conf:/path/to/redis.conf
+        command: redis-server /path/to/redis.conf
         ports: 
-        - 6379:6379
+            - 6379:6379
         restart: unless-stopped
         networks:
             - redisnet
