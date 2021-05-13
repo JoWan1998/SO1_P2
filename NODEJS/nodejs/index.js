@@ -113,7 +113,7 @@ function infect_(visitados, pais){
                 var __k = false;
                 lista.forEach(element1 =>
                 {
-                    if(element1.state.toLowerCase() === element.gender.toLowerCase())
+                    if(element1.state.toLowerCase() === element.gender.toLowerCase() && (element.location.toLowerCase().includes(pais.toString().toLowerCase()) || pais === ''))
                     {
                         element1.count = element1.count + 1;
                         __k = true;
