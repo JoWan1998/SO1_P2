@@ -54,8 +54,8 @@ export default class Mapa extends Component{
         axios.get('http://34.66.140.170:8080/top5/pacientes',{})
         .then(
             (response)=>{
-                var data = []
-                response.data.forEach(element => {
+               // var data = []
+                /*response.data.forEach(element => {
                     data.push(
                         {
                             Nombre: element.name,
@@ -64,12 +64,13 @@ export default class Mapa extends Component{
                             Edad: element.age
                         }
                     )
-                });
-                this.setState({dataV: data});
-                if(this.childVacunados.current != null){
+                    
+                });*/
+                this.setState({dataV: response.data});
+               /* if(this.childVacunados.current != null){
                     this.childVacunados.current.removeRow()
                     this.childVacunados.current.agregar_datos(data);
-                }
+                }*/
             }
         ).catch(err=>{});
     }

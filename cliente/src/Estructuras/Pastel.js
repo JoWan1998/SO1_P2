@@ -48,7 +48,7 @@ export default class Pastel extends Component {
                 var porcentajet=[]
 
                 this.state.respuesta.forEach((elemento) => {
-                    estadot.push(elemento.gender);
+                    estadot.push(elemento.state);
                     porcentajet.push(elemento.porcent);
                 });
 
