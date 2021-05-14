@@ -201,7 +201,7 @@ export default class Mapa extends Component{
              
                 <SimpleListItem
                     text={"Paciente: "+this.state.dataV[i].name}
-                    secondaryText={"Pais: " +this.state.paises[i].location+", Edad: "+this.state.paises[i].age}
+                    secondaryText={"Pais: " +this.state.dataV[i].location+", Edad: "+this.state.dataV[i].age}
                     meta="Vacunado"
                 />
              
