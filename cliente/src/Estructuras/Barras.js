@@ -61,43 +61,47 @@ export default class Barras extends Component{
     async peticiones_Range()
     {
         let peticion = {
-            pais: this.state.filtro1
+            location: this.state.filtro1
         }
-        await axios.get('http://35.222.55.115:8080/Ages',peticion)
+        console.log(peticion);
+        //http://c21f70cc5e50.ngrok.io/Edades
+        let url = localStorage.getItem("urlServerless") +"/Edades";
+        await axios.post(url, peticion)
         .then(
-            (res) =>{
-                let values = JSON.parse(JSON.stringify(res.data));
+            (response) =>{
                 this.generarC_RE();
-                if(values.length > 0) this.state3.respuesta = values;
-                this.state3.edad = []
-                this.state3.cantidad = []
-                this.state3.respuesta.forEach(item=>
-                {
-                    this.state3.cantidad.push(item.count)
-                    this.state3.edad.push(item.legend)
-                });
-                var densityData = {
-                    label: 'Edad de Pacientes',
-                    data: this.state3.cantidad,
-                    backgroundColor: this.state3.colores,
-                    borderColor: this.state3.colores,
-                    borderWidth: 2,
-                    hoverBorderWidth: 0
-                };
-                this.state3.data = {
-                    labels: this.state3.edad,
-                    datasets: [densityData]
-                };
-
-                this.state3.opciones = {
-                    elements: {
-                        rectangle: {
-                            borderSkipped: 'left',
-                        }
-                    }
-                };
+                if(response.data.length > 0) this.state3.respuesta = response.data;
+                
 
         }).catch(err => {})
+
+        this.state3.edad = []
+        this.state3.cantidad = []
+        this.state3.respuesta.forEach(item=>
+        {
+            this.state3.cantidad.push(item.count)
+            this.state3.edad.push(item.legend)
+        });
+        var densityData = {
+            label: 'Edad de Pacientes',
+            data: this.state3.cantidad,
+            backgroundColor: this.state3.colores,
+            borderColor: this.state3.colores,
+            borderWidth: 2,
+            hoverBorderWidth: 0
+        };
+        this.state3.data = {
+            labels: this.state3.edad,
+            datasets: [densityData]
+        };
+
+        this.state3.opciones = {
+            elements: {
+                rectangle: {
+                    borderSkipped: 'left',
+                }
+            }
+        };
     }
 
 
@@ -108,8 +112,8 @@ export default class Barras extends Component{
                 this.setState({
                     curTime : new Date().toLocaleString()
                 })
-            },2000)
-            setInterval(this.peticiones_Range, 2000);
+            },5000)
+            setInterval(this.peticiones_Range, 5000);
         } catch (error) {
             console.log("Errores de render");
         }
@@ -130,6 +134,9 @@ export default class Barras extends Component{
                 <div className="card-body">
                     <Typography use="headline3">Rango de Edades (Pacientes)</Typography>
                     <Bar data={this.state3.data} options={this.state3.opciones} legend={this.state3.legend}/>
+                </div>
+                <div className="card-footer text-right">
+                    <strong>Last Update on:</strong>&nbsp;<span className="badge badge-info">{this.state.curTime}</span>
                 </div>
             </div>
         )}
