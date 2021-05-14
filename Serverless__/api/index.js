@@ -22,7 +22,7 @@ function age_(pacientes,pais)
 
     pacientes.forEach(paciente=>
     {
-        if((paciente.age != null && Number(paciente.age)) && (paciente.location.toLowerCase() == pais.toLowerCase()))
+        if((paciente.age != null && Number(paciente.age)) && (paciente.location.toLowerCase().includes(pais.toLowerCase())))
         {
             lista.forEach(element=>
             {
@@ -77,13 +77,13 @@ function vac_(visitados,pais){
 function pais_(visitados){
     var lista = []
     visitados.forEach(element => {
-        if(element.location != null)
+        if(element.location != null )
         {
             var __in = false;
             lista.forEach(element1=>{
-                if(element1.location === element.location.toLowerCase()) __in = true;
+                if(element1.location.toUpperCase() == element.location.toUpperCase()) element1.value++;
             });
-            if(!__in) lista.push( { location: element.location.toLowerCase()});
+            if(!__in) lista.push( { location: element.location.toLowerCase(), value: 1});
         }
     });
 

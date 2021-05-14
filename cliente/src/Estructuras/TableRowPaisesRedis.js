@@ -65,18 +65,6 @@ export default class TableRowPaisesRedis extends Component{
         return (
             <DataTableRow>
                 {this.getRowsData()}
-                <DataTableCell key={this.state.rowindex+"OPCIONES"}>
-                    <IconButton
-                        label="Visualizar"
-                        icon="visibility"
-                        onClick={this.onTrigger}
-                    />
-                    <IconButton
-                        label="Eliminar"
-                        icon="delete"
-                        onClick={this.handleDelete}
-                    />
-                </DataTableCell>
             </DataTableRow>
         )
     }
