@@ -1,11 +1,10 @@
-# Api con NodeJs
+# MongoDB con NodeJs
 
 Contenido
 - [Api Rest](#api-rest)
     - [Endpoints](#endpoints) 
 - [Dockerizando](#dockerizando)
     - [Dockerfile](#dockerfile)
-    - [Docker Compose](#docker-compose)
 
 ### Api Rest
 Las dependencias para levantar la Api Rest con Node, son:
@@ -45,25 +44,7 @@ mongoClient.connect(urlMongo, { useUnifiedTopology: true })
 A continuación se definen los endpoints utilizados.
 
 #### Endpoints
-- Módulo de Procesos
 
-```js
-app.get('/procesos', (req, res) => {
-    const html = fs.readFileSync('/elements/procs/procesos','utf-8');
-    let texto = html.toString();
-    console.log("Procesos!")
-    res.send(texto);
-});
-```
-- Módulo RAM
-```js
-app.get('/ram', (req, res) => {
-    const html = fs.readFileSync('/elements/procs/ram-module','utf-8');
-    let texto = html.toString();
-    console.log("Ram!")
-    res.send(texto);
-});
-```
 - Nuevo registro en Mongo
 
 Para este endpoint, se verifica que ningún registro sea nulo para que se pueda registrar en la base de datos.
@@ -136,41 +117,4 @@ EXPOSE 8080
 RUN mkdir -p /elements/procs
 
 CMD ["node", "index.js"]
-```
-#### Docker Compose
-Se levantan los dos contenedores con Docker Compose, en el archivo se crea la red ```networkapi``` y se define cada contenedor con su nombre, puertos que cada contenedor va a exponer, su ruta donde puede encontrar el Dockerfile o ya sea el nombre de la imagen a bajar para el caso de Mongo.
-
-```yml
-version: "2.2"
-services:  
-  apinode:
-    container_name: apinode
-    restart: always
-    build: ./nodejs
-    ports:
-      - "8080:8080"
-    links:
-      - db
-    networks:
-      - networkapi
-    volumes:
-      - /proc/:/elements/procs/
-
-  db:
-      image: 'mongo'
-      container_name: db
-      environment:
-          - PUID=1000
-          - PGID=1000
-      volumes:
-          - /home/barry/db/database:/data/db
-      ports:
-          - 27017:27017
-      restart: unless-stopped
-      networks:
-        - networkapi
-
-networks:
-  networkapi:
-    driver: "bridge"
 ```

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-client
+  namespace: linkerd-project
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kafka-client
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: kafka-client
+    spec:
+      containers:
+      - name: kafka-publisher
+        image: battleab/kafka_publisher
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
+      - name: kafka-subscriber
+        image: battleab/kafka_subscriber
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-client
+  namespace: linkerd-project
+spec:
+  ports:
+  - name: service
+    port: 80
+  selector:
+    app: kafka-client
