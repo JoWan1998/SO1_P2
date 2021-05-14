@@ -50,19 +50,15 @@ class User():
 
 class MessageTraffic(HttpUser):
 
-    wait_time = between(0.1,10)
-    host = "http://34.120.55.27:8080"
+    wait_time = between(0.01,10)
+    host = "http://34.66.140.156"
     
 
     def on_start(self):
         print(">> MessageTraffic: Iniciando el envio de tráfico")
         self.general = User()
         self.general.cargar()
-        
-    @events.spawning_complete.add_listener
-    def nietUser(self):
-        print("ya van 4 bb");
-        
+                
 
     @task
     def PostMessage(self):
