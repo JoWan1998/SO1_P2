@@ -20,6 +20,8 @@
         "age": 40,
         "vaccine_type": "Sputnik V"
     },
+    
+    
     {
         "name": "omar cueva",
         "location": "Argentina City",
@@ -58,7 +60,7 @@
         "vaccine_type": "Sputnik V"
     },{
         "name": "noelia cueva",
-        "location": "United States City",
+        "location": "USA City",
         "gender": "male",
         "age": 19,
         "vaccine_type": "Sputnik V"
@@ -122,7 +124,10 @@
         "gender": "male",
         "age": 25,
         "vaccine_type": "Sputnik V"
-    },    
+    },
+    
+    
+    
     {
         "name": "nacho cueva",
         "location": "Guatemala City",
@@ -148,6 +153,9 @@
         "age": 24,
         "vaccine_type": "Sputnik V"
     }
+
+
+
     ,
     {
         "name": "lisa cueva",
